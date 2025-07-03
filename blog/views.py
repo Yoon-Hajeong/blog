@@ -16,7 +16,7 @@ def post_write(request):
     return render(request, 'blog/post_write.html', {'form': form})
 
 def blog_list(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-id')
     return render(request, 'blog/blog_list.html', {'posts': posts})
 
 def blog_detail(request, id):
