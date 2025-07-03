@@ -1,5 +1,10 @@
 <!-- blog/templates/blog/blog_list.html -->
 <h1>블로그 글 목록</h1>
+<form method="get" action="{% url 'post_search' %}">
+  <input type="text" name="q" placeholder="검색어 입력">
+  <button type="submit">검색</button>
+</form>
+
 <a href="{% url 'post_write' %}">글 작성하기</a>
 <a href="/">홈으로 돌아가기</a>
 

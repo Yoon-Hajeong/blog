@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from .models import Post
 from .forms import PostForm
 
@@ -16,7 +17,6 @@ def post_write(request):
         form = PostForm()
     return render(request, 'blog/post_write.html', {'form': form})
 
-
 def post_edit(request, id):
     post = get_object_or_404(Post, id=id)
     if request.method == "POST":
@@ -33,6 +33,24 @@ def post_delete(request, id):
     post.delete()
     return redirect('blog_list')
 
+def post_search(request, tag):
+    posts = Post.objects.filter(
+        Q(title__icontains=tag) | Q(category__icontains=tag)
+    ).order_by('-id')
+    return render(request, 'blog/post_search.html', {
+        'tag': tag,
+        'posts': posts
+    })
+
+def post_search(request):
+    tag = request.GET.get('q', '')
+    posts = Post.objects.filter(
+        Q(title__icontains=tag) | Q(category__icontains=tag)
+    ).order_by('-id')
+    return render(request, 'blog/post_search.html', {
+        'tag': tag,
+        'posts': posts
+    })
 
 
 def blog_list(request):
