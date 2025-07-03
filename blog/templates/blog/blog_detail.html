@@ -1,4 +1,10 @@
 <h1>{{ post.title }}</h1>
+<p><strong>카테고리:</strong> {{ post.category }}</p>
+<hr />
 <p>{{ post.content }}</p>
-<a href="/blog">목록으로 돌아가기</a>
+
+<hr />
+<a href="/blog">목록으로 돌아가기</a> |
+<a href="{% url 'post_edit' post.id %}">수정</a> |
+<a href="{% url 'post_delete' post.id %}">삭제</a> |
 <a href="/">홈으로 돌아가기</a>
