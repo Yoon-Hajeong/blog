@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Post
@@ -37,6 +37,9 @@ def user_login(request):
             return render(request, 'blog/login.html', {'error': '로그인 실패'})
     return render(request, 'blog/login.html')
 
+def user_logout(request):
+    logout(request)
+    return redirect('/')
 
 
 @login_required(login_url='/blog/login/')
