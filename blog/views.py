@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Post
 from .forms import PostForm
@@ -37,10 +38,14 @@ def user_login(request):
     return render(request, 'blog/login.html')
 
 
+
+@login_required(login_url='/blog/login/')
 def post_write(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
+            post = form.save(commit=False) #로그인 이용자만 가능하도록
+            post.author = request.user #로그인 이용자만 가능하도록
             form.save()
             return redirect('/blog/')
     else:
